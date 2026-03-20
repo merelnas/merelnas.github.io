@@ -1,9 +1,29 @@
 {
-  "name": "Merel Nas",
-  "instagram": "merelnas",
-  "email": "hello@merelnas.com",
-  "cvFile": "merel_nas_cv.pdf",
+  "name": "",
+  "instagram": "",
+  "email": "",
+  "phone": "",
+  "cvFile": "",
   "bio": "",
-  "contactText": "For inquiries, please reach out via email.",
-  "years": [2026, 2025, 2024, 2023, 2022, 2020]
+  "contactText": "",
+  "exhibitions": [
+    {
+      "year": null,
+      "title": "test",
+      "venue": "test"
+    }
+  ],
+  "education": [
+    {
+      "year": 2026,
+      "title": "BEAR",
+      "institution": "ArtEZ"
+    }
+  ],
+  "press": [],
+  "texts": [],
+  "writing": [],
+  "representation": "",
+  "representationUrl": "",
+  "location": ""
 }
