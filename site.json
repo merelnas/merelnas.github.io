@@ -6,24 +6,20 @@
   "cvFile": "",
   "bio": "",
   "contactText": "",
-  "exhibitions": [
-    {
-      "year": null,
-      "title": "test",
-      "venue": "test"
-    }
-  ],
-  "education": [
-    {
-      "year": 2026,
-      "title": "BEAR",
-      "institution": "ArtEZ"
-    }
-  ],
+  "exhibitions": [],
+  "education": [],
   "press": [],
   "texts": [],
   "writing": [],
   "representation": "",
   "representationUrl": "",
-  "location": ""
+  "location": "",
+  "years": [
+    2026,
+    2025,
+    2024,
+    2023,
+    2022,
+    2020
+  ]
 }
