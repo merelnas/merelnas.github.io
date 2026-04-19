@@ -229,7 +229,7 @@
         })
       : Promise.resolve([detectYear()].filter(Boolean));
 
-    container.innerHTML = '<div class="gallery-container"><p style="text-align:center;padding:3rem;opacity:.4;font-size:14px">Loading…</p></div>';
+    container.innerHTML = '';
 
     yearsPromise.then(years => {
       if (!years.length) {
