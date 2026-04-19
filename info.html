@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merel Nas</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="layout">
+  <div class="sidebar">
+    <div class="sidebar-top">
+      <h1><a href="/">Merel Nas</a></h1>
+      <nav>
+        <ul id="sidebar-nav-years">
+          <li><a href="/" class="">Home</a></li>
+        </ul>
+      </nav>
+      <nav class="nav-bottom">
+        <ul>
+          <li><a href="/info" class="active">Info</a></li>
+          <li><a href="/portfolio.pdf" target="_blank" rel="noopener noreferrer">Portfolio</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="sidebar-bottom">
+      <a href="https://instagram.com/merelnas" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="mobile-header">
+    <h1><a href="/">Merel Nas</a></h1>
+  </div>
+
+  <button class="menu-icon" id="burger-btn" onclick="toggleMenu()" aria-label="Menu">
+    <div class="burger" id="burger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
+
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="m-nav" id="mobile-nav-years">
+      <!-- populated by portfolio-loader.js -->
+    </div>
+  </div>
+  <main class="main-content">
+    <div id="info-grid"></div>
+  </main>
+</div>
+  <script>
+    function toggleMenu() {
+      var menu   = document.getElementById('mobile-menu');
+      var burger = document.getElementById('burger');
+      var isOpen = menu.classList.contains('open');
+      menu.classList.toggle('open', !isOpen);
+      burger.classList.toggle('is-open', !isOpen);
+      menu.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+      document.body.style.overflow = isOpen ? '' : 'hidden';
+    }
+    window.toggleMenu = toggleMenu;
+  </script>
+<script src="portfolio-loader.js"></script>
+</body>
+</html>
