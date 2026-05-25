@@ -1,15 +1,12 @@
 [
   {
-    "id": 1779718114581,
-    "image": {
-      "type": "file",
-      "name": "1779718114578.jpg"
-    },
-    "title": "sdgf",
-    "description": "sdfgf",
-    "material": "sdgf",
-    "dimensions": "sdgfh",
-    "series": "sdgf",
+    "id": 1779718544162,
+    "image": "images/1779718544159.jpg",
+    "title": "test",
+    "description": "test",
+    "material": "est",
+    "dimensions": "",
+    "series": "set",
     "year": 2026,
     "draft": false
   }
