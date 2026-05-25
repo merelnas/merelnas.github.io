@@ -168,7 +168,7 @@
   }
 
   function fetchYear(year) {
-    return fetch(`data/portfolio-${year}.json?v=${Date.now()}`)
+    return fetch(`/data/portfolio-${year}.json?v=${Date.now()}`)
       .then(r => r.ok ? r.json() : []).catch(() => []);
   }
 
@@ -219,7 +219,7 @@
   // ── Main ──────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
 
-    const sitePromise = fetch('site.json?v=' + Date.now())
+    const sitePromise = fetch('/site.json?v=' + Date.now())
       .then(r => r.ok ? r.json() : {}).catch(() => ({}));
 
     sitePromise.then(s => applySiteSettings(s));
