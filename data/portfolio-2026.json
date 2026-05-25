@@ -1,5 +1,19 @@
 [
   {
+    "id": 1779713850619,
+    "image": {
+      "type": "file",
+      "name": "1779713850616.jpg"
+    },
+    "title": "Slaapfeestjes fenomeen",
+    "description": "Lekker slapen joh",
+    "material": "Verf",
+    "dimensions": "180x130 cm",
+    "series": "",
+    "year": 2026,
+    "draft": false
+  },
+  {
     "id": 1779713703098,
     "image": {
       "type": "file",
