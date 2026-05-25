@@ -73,7 +73,10 @@
   // ── Info page ─────────────────────────────────────────────────
   function buildInfoPage(s) {
     const bio         = s.bio || '';
-    const exhibitions = (s.exhibitions || []).slice().sort((a,b) => (b.year||0)-(a.year||0));
+    const allExh      = (s.exhibitions || []).slice();
+    const upcoming    = allExh.filter(e => e.upcoming).sort((a,b) => (a.year||9999)-(b.year||9999));
+    const past        = allExh.filter(e => !e.upcoming).sort((a,b) => (b.year||0)-(a.year||0));
+    const exhibitions = [...upcoming, ...past];
     const education   = (s.education   || []).slice().sort((a,b) => (b.year||0)-(a.year||0));
 
     const bioHtml = bio
@@ -82,8 +85,8 @@
 
     const listHtml = (items, emptyMsg) => items.length
       ? `<ul class="info-list">${items.map(e=>`
-          <li>
-            <span class="info-year">${esc(String(e.year||''))}</span>
+          <li${e.upcoming?' style="opacity:1"':''}>
+            <span class="info-year">${e.upcoming ? '<span style="font-size:9px;font-weight:700;color:#824f62;text-transform:uppercase;letter-spacing:.05em">Soon</span>' : esc(String(e.year||''))}</span>
             <span>${esc(e.title)}${(e.venue||e.institution)?`<br><span style="opacity:.5">${esc(e.venue||e.institution)}</span>`:''}</span>
           </li>`).join('')}</ul>`
       : `<p style="opacity:.4;font-size:.9rem">${emptyMsg}</p>`;
