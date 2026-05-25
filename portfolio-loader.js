@@ -20,7 +20,7 @@
   }
 
   // ── Build + inject sidebar nav from navYears ──────────────────
-  function buildNav(navYears) {
+  function buildNav(navYears, s) {
     const sorted = [...navYears].sort((a, b) => b - a);
     const currentYear = detectYear();
 
@@ -46,9 +46,10 @@
     const mobileNav = document.getElementById('mobile-nav-years');
     if (mobileNav) {
       mobileNav.innerHTML =
+        `<a class="m-nav-item" href="/"><span class="m-nav-title">Home</span></a>` +
         `<a class="m-nav-item" href="/info"><span class="m-nav-title">Info</span></a>` +
         sorted.map(y => `<a class="m-nav-item" href="/${y}"><span class="m-nav-title">${y}</span></a>`).join('') +
-        (document.querySelector('a[href*=".pdf"]') ? `<a class="m-nav-item" href="/portfolio.pdf" target="_blank"><span class="m-nav-title">Portfolio</span></a>` : '');
+        (s && s.instagram ? `<a class="m-nav-item ig-link" href="https://instagram.com/${s.instagram.replace('@','')}" target="_blank" rel="noopener noreferrer"><span class="m-nav-title" style="font-size:clamp(1.2rem,6vw,2rem);font-style:normal;opacity:.5">Instagram</span></a>` : '');
     }
   }
 
@@ -66,7 +67,7 @@
       });
     }
     const navYears = (s.navYears && s.navYears.length) ? s.navYears : (s.years || []);
-    if (navYears.length) buildNav(navYears);
+    if (navYears.length) buildNav(navYears, s);
   }
 
   // ── Info page ─────────────────────────────────────────────────
@@ -87,6 +88,7 @@
           </li>`).join('')}</ul>`
       : `<p style="opacity:.4;font-size:.9rem">${emptyMsg}</p>`;
 
+    const portraitSrc = s.portraitImage || '';
     return `
     <div class="info-page">
       <div class="info-main">
@@ -101,6 +103,7 @@
         </div>
       </div>
       <aside class="info-contact">
+        ${portraitSrc ? `<img src="${esc(portraitSrc)}" alt="Artist portrait" class="info-portrait">` : ''}
         ${s.email?`<div class="info-contact-item">
           <div class="info-contact-label">Email</div>
           <div class="info-contact-value"><a href="mailto:${esc(s.email)}">${esc(s.email)}</a></div>
@@ -108,6 +111,10 @@
         ${s.instagram?`<div class="info-contact-item">
           <div class="info-contact-label">Instagram</div>
           <div class="info-contact-value"><a href="https://instagram.com/${esc(s.instagram)}" target="_blank" rel="noopener noreferrer">@${esc(s.instagram)}</a></div>
+        </div>`:''}
+        ${s.cvFile?`<div class="info-contact-item">
+          <div class="info-contact-label">Portfolio</div>
+          <div class="info-contact-value"><a href="/${esc(s.cvFile)}" target="_blank" rel="noopener noreferrer" download>Download PDF</a></div>
         </div>`:''}
         ${s.contactText?`<div class="info-contact-item">
           <div class="info-contact-value" style="opacity:.6;font-size:.85rem;line-height:1.6">${esc(s.contactText)}</div>
@@ -144,6 +151,7 @@
       return `
       <div id="pf-img-${year}-${i}" class="lightbox">
         <a href="#!" class="lightbox-close"></a>
+        <a href="#!" class="lightbox-x">✕</a>
         <div class="lightbox-content">
           <a href="#pf-img-${year}-${prev}" class="lightbox-prev">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
@@ -257,9 +265,12 @@
             return;
           }
           if (isIndex()) {
-            container.innerHTML = filled.map(({year, items}) =>
-              `<div class="gallery-container" id="year-section-${year}">${buildGallery(items, year)}</div>`
-            ).join('');
+            // Merge all years into one continuous masonry flow
+            const allItems = filled.reduce((acc, {year, items}) => {
+              return acc.concat(items.map(item => ({...item, _year: year})));
+            }, []);
+            // Build a single gallery using a combined key
+            container.innerHTML = `<div class="gallery-container">${buildGallery(allItems, 'home')}</div>`;
             document.querySelector('main').style.opacity = '1';
           } else {
             const {year, items} = filled[0];
