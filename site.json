@@ -1,25 +1,56 @@
 {
-  "name": "Merel",
-  "instagram": "Merel_Nas",
-  "email": "merelnas@lol.com",
+  "name": "",
+  "instagram": "",
+  "email": "",
   "phone": "",
   "cvFile": "",
   "bio": "",
   "contactText": "",
+  "navYears": [],
   "exhibitions": [],
   "education": [],
   "press": [],
   "texts": [],
   "writing": [],
+  "seriesMeta": {},
   "representation": "",
   "representationUrl": "",
-  "location": "Arhem",
-  "years": [
-    2026,
-    2025,
-    2024,
-    2023,
-    2022,
-    2020
+  "location": "",
+  "pages": [
+    {
+      "type": "home",
+      "label": "Home",
+      "enabled": true
+    },
+    {
+      "type": "works-year",
+      "label": "Works",
+      "enabled": true
+    },
+    {
+      "type": "works-series",
+      "label": "Series",
+      "enabled": false
+    },
+    {
+      "type": "cv",
+      "label": "CV",
+      "enabled": false
+    },
+    {
+      "type": "info",
+      "label": "Info",
+      "enabled": true
+    },
+    {
+      "type": "texts",
+      "label": "Texts",
+      "enabled": false
+    },
+    {
+      "type": "contact",
+      "label": "Contact",
+      "enabled": false
+    }
   ]
 }
