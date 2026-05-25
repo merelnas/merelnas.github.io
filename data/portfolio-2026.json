@@ -1,29 +1,15 @@
 [
   {
-    "id": 1779713850619,
+    "id": 1779718114581,
     "image": {
       "type": "file",
-      "name": "1779713850616.jpg"
+      "name": "1779718114578.jpg"
     },
-    "title": "Slaapfeestjes fenomeen",
-    "description": "Lekker slapen joh",
-    "material": "Verf",
-    "dimensions": "180x130 cm",
-    "series": "",
-    "year": 2026,
-    "draft": false
-  },
-  {
-    "id": 1779713703098,
-    "image": {
-      "type": "file",
-      "name": "1779713703090.jpg"
-    },
-    "title": "Ijsje",
-    "description": "Lekker",
-    "material": "Verf",
-    "dimensions": "28888888x2292929cm",
-    "series": "",
+    "title": "sdgf",
+    "description": "sdfgf",
+    "material": "sdgf",
+    "dimensions": "sdgfh",
+    "series": "sdgf",
     "year": 2026,
     "draft": false
   }
