@@ -39,10 +39,10 @@ a { color: inherit; text-decoration: none; }
 .m-nav-item:active { opacity: .25; }
 .m-nav-title { font-family: 'Cormorant', Georgia, serif; font-size: clamp(2.4rem, 10vw, 4.5rem); font-weight: 300; font-style: italic; line-height: 1.05; color: #111; display: block; }
 
-.main-content { flex-grow: 1; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5rem .25rem .25rem; height: 100%; opacity: 0; transition: opacity .35s; }
-@media (min-width: 768px) { .main-content { padding: 2rem; } }
+.main-content { flex-grow: 1; overflow-y: auto; padding: 5rem .25rem 2rem; opacity: 0; transition: opacity .35s; }
+@media (min-width: 768px) { .main-content { padding: 2rem 2rem 4rem; } }
 
-.gallery-container { width: 100%; height: 100%; overflow-y: auto; }
+.gallery-container { width: 100%; }
 .masonry { column-count: 1; column-gap: .5rem; }
 @media (min-width: 640px) { .masonry { column-count: 2; } }
 @media (min-width: 768px) { .masonry { column-count: 3; column-gap: 10px; } }
@@ -69,7 +69,7 @@ a { color: inherit; text-decoration: none; }
 .lightbox-prev:hover, .lightbox-next:hover { opacity: 1; }
 @media (max-width: 767px) { .lightbox-prev, .lightbox-next { top: auto; bottom: 2rem; width: auto; opacity: .5; } .lightbox-prev { left: 1rem; } .lightbox-next { right: 1rem; } }
 
-.info-page { width: 100%; height: 100%; overflow-y: auto; padding: 3rem 2.5rem 4rem; }
+.info-page { width: 100%; padding: 3rem 2.5rem 4rem; }
 @media (min-width: 768px) { .info-page { display: grid; grid-template-columns: 1fr 240px; gap: 4rem; align-items: start; padding: 3rem 3rem 4rem; } }
 .info-bio { margin-bottom: 3rem; }
 .info-bio p { font-size: 15px; line-height: 1.85; color: #111; margin-bottom: 1rem; max-width: 54ch; }
@@ -96,3 +96,32 @@ a { color: inherit; text-decoration: none; }
 .burger.is-open span:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
 .burger.is-open span:nth-child(2) { opacity: 0; transform: translateY(-50%) scaleX(0); }
 .burger.is-open span:nth-child(3) { top: 50%; transform: translateY(-50%) rotate(-45deg); }
+
+/* ── Lightbox X close button ── */
+.lightbox-x {
+  position: absolute;
+  top: 20px; right: 20px;
+  z-index: 10;
+  width: 36px; height: 36px;
+  background: rgba(0,0,0,.06);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background .15s, transform .2s;
+  text-decoration: none;
+  color: #111;
+  font-size: 18px;
+  line-height: 1;
+}
+.lightbox-x:hover { background: rgba(0,0,0,.12); transform: scale(1.1); }
+
+/* ── Artist portrait on info page ── */
+.info-portrait {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+  display: block;
+}
+.info-portrait-placeholder { display: none; }
