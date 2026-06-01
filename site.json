@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "instagram": "",
+  "name": "Merel Nas",
+  "instagram": "merel_nas",
   "email": "",
   "phone": "",
   "cvFile": "",
@@ -56,7 +56,7 @@
   "seriesMeta": {},
   "representation": "",
   "representationUrl": "",
-  "location": "",
+  "location": "Arnhem, Netherlands",
   "pages": [
     {
       "type": "home",
@@ -99,6 +99,6 @@
     2025,
     2024
   ],
-  "portraitImage": "",
+  "portraitImage": "images/portrait.jpg",
   "cvFileSize": 24
 }
