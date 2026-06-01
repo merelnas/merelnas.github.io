@@ -19,28 +19,28 @@
       "upcoming": false
     },
     {
-      "year": 2024,
-      "title": "OPEN HOUSE: 5 ROOM APARTMENT",
-      "venue": "Omstand, Arnhem, Netherlands",
+      "year": "",
+      "title": "The necessary existence of a bitter almond",
+      "venue": "ArtEZ Institute of the Arts, Arnhem, The Netherlands",
+      "upcoming": true
+    },
+    {
+      "year": 2026,
+      "title": "Visible Lines of Worryface",
+      "venue": "Kunstpodium T, Tilburg, The Netherlands",
       "upcoming": false
     },
     {
       "year": 2025,
       "title": "BEAR THIS",
-      "venue": "Omstand, Arnhem, Netherlands",
+      "venue": "Omstand, Arnhem, The Netherlands",
       "upcoming": false
     },
     {
-      "year": 2026,
-      "title": "Visible Lines of Worryface",
-      "venue": "Kunstpodium T, Tilburg, Netherlands",
+      "year": 2024,
+      "title": "OPEN HOUSE: 5 ROOM APARTMENT",
+      "venue": "Omstand, Arnhem, The Netherlands",
       "upcoming": false
-    },
-    {
-      "year": 2026,
-      "title": "The necessary existence of a bitter almond",
-      "venue": "ArtEZ Institute of the Arts, Arnhem, Netherlands",
-      "upcoming": true
     }
   ],
   "education": [
