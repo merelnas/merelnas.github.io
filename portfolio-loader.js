@@ -127,59 +127,68 @@
   }
 
   // ── Gallery ───────────────────────────────────────────────────
-  // Resolve image from any format the admin might store
+  // Resolve image from any format
   function resolveImage(image) {
     if (!image) return '';
-    if (typeof image === 'string') return image;
+    if (typeof image === 'string') return image.startsWith('http') || image.startsWith('/') ? image : '/' + image;
     if (image.type === 'base64') return image.data;
-    if (image.type === 'file') return 'images/' + image.name;
+    if (image.type === 'file') return '/images/' + image.name;
     return '';
   }
 
-  function buildGallery(items, year) {
-    const thumbs = items.map((item, i) => {
-      const src = resolveImage(item.image);
+  // Each work has images[]; grid shows images[0]; clicking opens a lightbox
+  // that scrolls through ALL of that work's images.
+  function buildGallery(works) {
+    // Grid: one thumbnail per work (cover = first image)
+    const thumbs = works.map((work, wi) => {
+      const cover = resolveImage((work.images || [])[0]);
       return `
       <div class="masonry-item">
-        <a href="#pf-img-${year}-${i}">
-          <img src="${esc(src)}" alt="${esc(item.title)}" loading="lazy">
+        <a href="#pf-w-${wi}-0">
+          <img src="${esc(cover)}" alt="${esc(work.title)}" loading="lazy">
         </a>
       </div>`;
     }).join('');
 
-    const lightboxes = items.map((item, i) => {
-      const src = resolveImage(item.image);
-      const prev = i === 0 ? items.length - 1 : i - 1;
-      const next = i === items.length - 1 ? 0 : i + 1;
-      return `
-      <div id="pf-img-${year}-${i}" class="lightbox">
+    // Lightboxes: for each work, one lightbox per image, prev/next cycle within the work
+    const lightboxes = works.map((work, wi) => {
+      const imgs = work.images || [];
+      return imgs.map((img, ii) => {
+        const src = resolveImage(img);
+        const prev = ii === 0 ? imgs.length - 1 : ii - 1;
+        const next = ii === imgs.length - 1 ? 0 : ii + 1;
+        const multi = imgs.length > 1;
+        return `
+      <div id="pf-w-${wi}-${ii}" class="lightbox">
         <a href="#!" class="lightbox-close"></a>
         <a href="#!" class="lightbox-x">✕</a>
         <div class="lightbox-content">
-          <a href="#pf-img-${year}-${prev}" class="lightbox-prev">
+          ${multi?`<a href="#pf-w-${wi}-${prev}" class="lightbox-prev">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-          </a>
+          </a>`:''}
           <div class="lightbox-image-container">
-            <img src="${esc(src)}" alt="${esc(item.title)}">
+            <img src="${esc(src)}" alt="${esc(work.title)}">
             <div class="lightbox-info">
-              <h3>${esc(item.title)}</h3>
-              ${item.description?`<p>${esc(item.description)}</p>`:''}
-              ${item.material?`<p style="opacity:.6;font-size:13px">${esc(item.material)}</p>`:''}
-              <span class="year">${year}</span>
+              <h3>${esc(work.title)}</h3>
+              ${work.description?`<p>${esc(work.description)}</p>`:''}
+              ${work.material?`<p style="opacity:.6;font-size:13px">${esc(work.material)}${work.dimensions?' · '+esc(work.dimensions):''}</p>`:''}
+              <span class="year">${esc(String(work.year||''))}${multi?` · ${ii+1}/${imgs.length}`:''}</span>
             </div>
           </div>
-          <a href="#pf-img-${year}-${next}" class="lightbox-next">
+          ${multi?`<a href="#pf-w-${wi}-${next}" class="lightbox-next">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
+          </a>`:''}
         </div>
       </div>`;
+      }).join('');
     }).join('');
 
     return `<div class="masonry">${thumbs}</div>${lightboxes}`;
   }
 
-  function fetchYear(year) {
-    return fetch(`/data/portfolio-${year}.json?v=${Date.now()}`)
+  // Fetch the manifest (single source of truth for the website)
+  function fetchManifest() {
+    return fetch(`/data/manifest.json?v=${Date.now()}`)
       .then(r => r.ok ? r.json() : []).catch(() => []);
   }
 
@@ -245,42 +254,33 @@
     // Gallery
     const container = document.getElementById('portfolio-grid');
     if (!container) return;
-
-    const yearsPromise = isIndex()
-      ? sitePromise.then(s => {
-          const ny = (s.navYears && s.navYears.length) ? s.navYears : (s.years || []);
-          return [...ny].sort((a,b) => b-a);
-        })
-      : Promise.resolve([detectYear()].filter(Boolean));
-
     container.innerHTML = '';
 
-    yearsPromise.then(years => {
-      if (!years.length) {
-        container.innerHTML = '<div class="gallery-container"><p style="text-align:center;padding:3rem;opacity:.4;font-size:14px">Could not detect year.</p></div>';
+    fetchManifest().then(allWorks => {
+      if (!Array.isArray(allWorks) || !allWorks.length) {
+        container.innerHTML = '<div class="gallery-container"><p style="text-align:center;padding:3rem;opacity:.4;font-size:14px">No works added yet.</p></div>';
+        document.querySelector('main').style.opacity = '1';
         return;
       }
-      Promise.all(years.map(y => fetchYear(y).then(items => ({ year: y, items }))))
-        .then(results => {
-          const filled = results.filter(r => r.items && r.items.length);
-          if (!filled.length) {
-            container.innerHTML = '<div class="gallery-container"><p style="text-align:center;padding:3rem;opacity:.4;font-size:14px">No works added yet.</p></div>';
-            return;
-          }
-          if (isIndex()) {
-            // Merge all years into one continuous masonry flow
-            const allItems = filled.reduce((acc, {year, items}) => {
-              return acc.concat(items.map(item => ({...item, _year: year})));
-            }, []);
-            // Build a single gallery using a combined key
-            container.innerHTML = `<div class="gallery-container">${buildGallery(allItems, 'home')}</div>`;
-            document.querySelector('main').style.opacity = '1';
-          } else {
-            const {year, items} = filled[0];
-            container.innerHTML = `<div class="gallery-container">${buildGallery(items, year)}</div>`;
-            document.querySelector('main').style.opacity = '1';
-          }
-        });
+      // sort by order, then newest year
+      allWorks.sort((a,b) => (a.order||0)-(b.order||0) || (b.year||0)-(a.year||0));
+
+      let works;
+      if (isIndex()) {
+        // Homepage = one continuous flow of every work
+        works = allWorks;
+      } else {
+        // Year page = filter to that year
+        const y = detectYear();
+        works = allWorks.filter(w => String(w.year) === String(y));
+      }
+
+      if (!works.length) {
+        container.innerHTML = '<div class="gallery-container"><p style="text-align:center;padding:3rem;opacity:.4;font-size:14px">No works in this year yet.</p></div>';
+      } else {
+        container.innerHTML = `<div class="gallery-container">${buildGallery(works)}</div>`;
+      }
+      document.querySelector('main').style.opacity = '1';
     });
   });
 
